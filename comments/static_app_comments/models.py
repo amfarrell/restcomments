@@ -5,6 +5,7 @@ class Comment(models.Model):
     article_slug = models.SlugField(max_length=100, db_index=True)
     user_email = models.EmailField()
     paragraph_hash = models.IntegerField(db_index=True)
+    comment_hash = models.IntegerField()
     timestamp = models.DateTimeField(auto_now = True)
     deleted = models.BooleanField(default=False)
     text = models.TextField()

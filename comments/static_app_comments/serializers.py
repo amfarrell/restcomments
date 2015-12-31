@@ -6,7 +6,8 @@ from rest_framework import serializers
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('user_email', 'paragraph_hash', 'timestamp', 'deleted', 'text', )
+        fields = ('article_slug', 'user_email', 'paragraph_hash',
+                'comment_hash', 'timestamp', 'deleted', 'text', )
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

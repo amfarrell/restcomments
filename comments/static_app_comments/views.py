@@ -29,6 +29,7 @@ def comment_list(request):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        print(request.data)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
