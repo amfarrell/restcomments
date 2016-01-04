@@ -1,9 +1,13 @@
+import requests
+import requests.auth
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from django.conf import settings
 from comments.static_app_comments.serializers import \
     UserSerializer, CommentSerializer
 from comments.static_app_comments.models import Comment
@@ -15,12 +19,27 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     """
     Allows users to be viewed or edited
     """
-    queryset = Comment.objects.all().order_by('article_slug', 'paragraph_hash', 'timestamp')
+    queryset = Comment.objects.all().order_by('article_url', 'paragraph_hash', 'timestamp')
     serializer_class = CommentSerializer
+    permission_classes = [GithubPermission]
+
+
+@api_view(['GET'])
+def get_token(request, code):
+    token_response = requests.post(settings.TOKEN_URL, data = {
+        'client_id': settings.CLIENT_ID,
+        'client_secret': settings.CLIENT_SECRET,
+        'code': code,
+    }, headers = {
+        'Accept': 'application/json'
+    })
+    token_json = github_response.json()
+    return JsonResponse(github_response.json())
 
 @api_view(['GET', 'POST'])
 def comment_list(request):

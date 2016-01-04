@@ -2,8 +2,10 @@ from django.db import models
 
 # Create your models here.
 class Comment(models.Model):
-    article_slug = models.SlugField(max_length=100, db_index=True)
+    article_url = models.URLField(db_index=True)
     user_email = models.EmailField()
+    user_name = models.CharField(max_length=128)
+    user_avatar_url = models.URLField()
     paragraph_hash = models.IntegerField(db_index=True)
     comment_hash = models.IntegerField()
     timestamp = models.DateTimeField(auto_now = True)
@@ -11,4 +13,4 @@ class Comment(models.Model):
     text = models.TextField()
 
     class Meta:
-        ordering = ('article_slug', 'paragraph_hash', 'timestamp',)
+        ordering = ('article_url', 'paragraph_hash', 'timestamp',)

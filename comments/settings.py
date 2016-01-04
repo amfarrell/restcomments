@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'comments.static_app_comments',
     'corsheaders',
+    'oauth2_provider',
 ]
 
 REST_FRAMEWORK = {
@@ -129,5 +130,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+CLIENT_ID = '3fe96eef5f5e3afad817' #Client ID for github
+CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
+AUTHORIZATION_BASE_URL = 'https://github.com/login/oauth/authorize'
+TOKEN_URL = 'https://github.com/login/oauth/access_token'
 
 STATIC_URL = '/static/'
