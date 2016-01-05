@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'comments.static_app_comments',
     'corsheaders',
-    'oauth2_provider',
 ]
 
 REST_FRAMEWORK = {

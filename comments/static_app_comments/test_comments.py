@@ -11,9 +11,12 @@ def test_save_comment():
     client = APIClient()
     response = client.post('/comments/', {
         'article_url': 'http://0.0.0.0:8080/saltstack-from-scratch',
-        'user_email': 'af@jambonsw.com',
-        'user_name': 'Andrew Farrell',
-        'user_avatar_url': "https://avatars.githubusercontent.com/u/123831?v=3",
+        'user': {
+            'login': 'amfarrell',
+            'email': 'af@jambonsw.com',
+            'name': 'Andrew Farrell',
+            'avatar_url': "https://avatars.githubusercontent.com/u/123831?v=3",
+        },
         'comment_hash': 1242837,
         'paragraph_hash': 1242897,
         'deleted': False,
@@ -24,11 +27,15 @@ def test_save_comment():
 
 @pytest.mark.django_db
 def test_get_comments():
+    commenter_data = {
+        'login': 'amfarrell',
+        'email': 'af@jambonsw.com',
+        'name': 'Andrew M. Farrell',
+        'avatar_url': "https://avatars.githubusercontent.com/u/123831?v=3",
+    }
+    Commenter.objects.create()
     comment_data = {
         'article_url': 'http://0.0.0.0:8080/saltstack-from-scratch',
-        'user_email': 'af@jambonsw.com',
-        'user_name': 'Andrew M. Farrell',
-        'user_avatar_url': "https://avatars.githubusercontent.com/u/123831?v=3",
         'paragraph_hash': 1242897,
         'comment_hash': 1242837,
         'deleted': False,

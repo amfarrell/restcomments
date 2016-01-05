@@ -8,21 +8,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from django.conf import settings
-from comments.static_app_comments.serializers import \
-    UserSerializer, CommentSerializer
+from comments.static_app_comments.serializers import CommentSerializer
 from comments.static_app_comments.models import Comment
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    Allows users to be viewed or edited
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+from comments.static_app_comments.serializers import CommentSerializer
+from comments.static_app_comments.models import \
+    Comment, Commenter
+from comments.static_app_comments.auth import GithubPermission, login_commenter
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
-    Allows users to be viewed or edited
+    Allows comments to be viewed or edited
     """
     queryset = Comment.objects.all().order_by('article_url', 'paragraph_hash', 'timestamp')
     serializer_class = CommentSerializer
@@ -38,8 +35,15 @@ def get_token(request, code):
     }, headers = {
         'Accept': 'application/json'
     })
-    token_json = github_response.json()
-    return JsonResponse(github_response.json())
+
+    if requests.code.ok != token_response.status_code:
+        logger.error("Request to github returned {}".format(token_response.status_code))
+        logger.error(token_response.text)
+
+    token_json = token_response.json()
+    if token_json.get('access_token'):
+        login_commenter(token_json['access_token'])
+    return JsonResponse(token_response.json())
 
 @api_view(['GET', 'POST'])
 def comment_list(request):
