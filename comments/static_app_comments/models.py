@@ -14,8 +14,8 @@ class Commenter(models.Model):
 class Comment(models.Model):
     commenter = models.ForeignKey(Commenter)
     article_url = models.URLField(db_index=True)
-    paragraph_hash = models.IntegerField(db_index=True)
-    comment_hash = models.IntegerField()
+    paragraph_hash = models.BigIntegerField(db_index=True)
+    comment_hash = models.BigIntegerField()
     timestamp = models.DateTimeField(auto_now = True)
     deleted = models.BooleanField(default=False)
     text = models.TextField()
