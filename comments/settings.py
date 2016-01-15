@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'comments.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-if os.environ('DATABASE_URL'):
+if os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': dj_database_url.config(),
     }
@@ -144,3 +144,20 @@ TOKEN_URL = 'https://github.com/login/oauth/access_token'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.environ.get('STATIC_ROOT')
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}
