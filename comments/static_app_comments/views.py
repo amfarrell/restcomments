@@ -16,6 +16,7 @@ from comments.static_app_comments.models import \
     Comment, Commenter
 from comments.static_app_comments.auth import GithubPermission, login_commenter
 
+logger = logging.getLogger('django')
 
 class CommentViewSet(viewsets.ModelViewSet):
     """
