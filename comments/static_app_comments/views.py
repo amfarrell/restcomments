@@ -16,6 +16,7 @@ from comments.static_app_comments.models import \
     Comment, Commenter
 from comments.static_app_comments.auth import GithubPermission, login_commenter
 
+import logging
 logger = logging.getLogger('django')
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -37,7 +38,7 @@ def get_token(request, code):
         'Accept': 'application/json'
     })
 
-    if requests.code.ok != token_response.status_code:
+    if requests.codes.ok != token_response.status_code:
         logger.error("Request to github returned {}".format(token_response.status_code))
         logger.error(token_response.text)
 

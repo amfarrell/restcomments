@@ -3,9 +3,9 @@ from rest_framework.authtoken.models import Token
 
 class Commenter(models.Model):
     login = models.CharField(primary_key=True, max_length=48)
-    email = models.EmailField()
-    name = models.CharField(max_length=128)
-    avatar_url = models.URLField()
+    email = models.EmailField(null=True)
+    name = models.CharField(max_length=128, null=True)
+    avatar_url = models.URLField(null=True)
     banned = models.BooleanField(default=False)
     token = models.CharField(max_length=40)
 
