@@ -22,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fakesecret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = json.loads(os.environ.get('DOMAINS', '["0.0.0.0"]'))
 
@@ -143,8 +143,8 @@ CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
 AUTHORIZATION_BASE_URL = 'https://github.com/login/oauth/authorize'
 TOKEN_URL = 'https://github.com/login/oauth/access_token'
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.environ.get('STATIC_ROOT')
+STATIC_URL = os.environ.get('STATIC_URL', '/static/')
+STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.expanduser('~/static_root'))
 
 
 LOGGING = {
