@@ -16,7 +16,7 @@ class Comment(models.Model):
     article_url = models.URLField(db_index=True)
     paragraph_hash = models.BigIntegerField(db_index=True)
     comment_hash = models.BigIntegerField()
-    timestamp = models.DateTimeField(auto_now = True)
+    timestamp = models.DateTimeField(auto_now_add = True)
     deleted = models.BooleanField(default=False)
     text = models.TextField()
 
