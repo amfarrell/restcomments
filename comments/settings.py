@@ -146,6 +146,14 @@ TOKEN_URL = 'https://github.com/login/oauth/access_token'
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.expanduser('~/static_root'))
 
+#Sendgrid credentials
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)
+if SENDGRID_API_KEY:
+    EMAIL_BACKEND = "sgbackend.SendGridBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
+
+
 
 LOGGING = {
     'version': 1,

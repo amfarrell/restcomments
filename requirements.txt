@@ -1,6 +1,7 @@
 gunicorn
 psycopg2
 dj_database_url
+sendgrid-django
 django
 djangorestframework
 requests
