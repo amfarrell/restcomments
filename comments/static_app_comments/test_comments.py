@@ -123,3 +123,30 @@ def test_email_comments():
     assert 1 == len(mail.outbox)
     assert new_comment_data['text'] in mail.outbox[0].body
     assert old_comment_data['text'] not in mail.outbox[0].body
+
+@pytest.mark.django_db
+def test_email_no_comments():
+    test_token = 'fjkdls0u4089riopjwirf'
+    commenter_data = {
+        'login': 'amfarrell',
+        'email': 'amfarrell@mit.edu',
+        'name': 'Andrew M. Farrell',
+        'avatar_url': "https://avatars.githubusercontent.com/u/123831?v=3",
+        'token': test_token,
+    }
+    commenter = Commenter.objects.create(**commenter_data)
+    old_comment_data = {
+        'article_url': 'http://0.0.0.0:8080/saltstack-from-scratch',
+        'paragraph_hash': 1242897,
+        'comment_hash': 2428378341,
+        'deleted': False,
+        'text': "You say... the price of my war's not a price that you're willing to pay",
+        'commenter': commenter,
+    }
+    old_comment = Comment.objects.create(**old_comment_data)
+    old_comment.timestamp = datetime.today() - timedelta(minutes=20)
+    old_comment.save()
+
+    call_command('send_mail', '15')
+
+    assert 0 == len(mail.outbox)

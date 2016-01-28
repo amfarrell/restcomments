@@ -50,12 +50,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         comments = Comment.objects.filter(timestamp__gt=
             datetime.today()-timedelta(minutes=options['mins'])).select_related('commenter')
-        mail = EmailMultiAlternatives(
-            subject="Comments on {}".format(settings.ALLOWED_HOSTS),
-            body=self.render_comments_plaintext(comments),
-            from_email=os.environ.get('SERVER_EMAIL', 'comments@amfarrell.com'),
-            to=[os.environ.get('ADMIN_EMAIL', 'amfarrell@mit.edu')],
-            headers={'Reply-To': os.environ.get('ADMIN_EMAIL', 'amfarrell@mit.edu')}
-        )
-        mail.attach_alternative(self.render_comments_html(comments), 'text/html')
-        mail.send()
+        if comments.count():
+            mail = EmailMultiAlternatives(
+                subject="Comments on {}".format(settings.ALLOWED_HOSTS),
+                body=self.render_comments_plaintext(comments),
+                from_email=os.environ.get('SERVER_EMAIL', 'comments@amfarrell.com'),
+                to=[os.environ.get('ADMIN_EMAIL', 'amfarrell@mit.edu')],
+                headers={'Reply-To': os.environ.get('ADMIN_EMAIL', 'amfarrell@mit.edu')}
+            )
+            mail.attach_alternative(self.render_comments_html(comments), 'text/html')
+            mail.send()
