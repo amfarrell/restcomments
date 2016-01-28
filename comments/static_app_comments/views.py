@@ -46,30 +46,3 @@ def get_token(request, code):
     if token_json.get('access_token'):
         login_commenter(token_json['access_token'])
     return JsonResponse(token_response.json())
-
-@api_view(['GET', 'POST'])
-def comment_list(request):
-    if request.method == 'GET':
-        comments = Comment.objects.all()
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        print(request.data)
-        serializer = CommentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def comment_detail(request):
-    if request_method == 'GET':
-        comments = Comment.objects.all()
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        serializer = SnippedSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

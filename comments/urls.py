@@ -25,8 +25,5 @@ router.register(r'comments', views.CommentViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^admin/', admin.site.urls),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-#    url(r'^comments/$', comment_list, name='comment-list'),
-#    url(r'^comments/$', views.comment_list, name='comment-list'),
     url(r'^authenticate/(?P<code>[0-9a-f]+)$', views.get_token, name='get_token'),
 ]
