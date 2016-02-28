@@ -26,6 +26,9 @@ class Command(BaseCommand):
             {% endif %}
             on <a href="{{ comment.article_url }}">{{ comment.article_url }}</a>:
             {{ comment.text }}
+            {% if comment.commenter.email %}
+                respond to {{ comment.commenter.email }}
+            {% endif %}
         {% endfor %}
         """)
         context = Context({'comments': comments})
